@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Newton's Forward Difference Method for Derivative Estimation</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css.map" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f7f7f7;
+        margin: 0;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: white;
+      }
+
+      .container h1 {
+        text-align: center;
+      }
+
+      .container label {
+        display: block;
+        margin-top: 10px;
+      }
+
+      .container input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      .container button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      .container button:hover {
+        background-color: #0056b3;
+      }
+
+      .container .result {
+        margin-top: 20px;
+        text-align: center;
+      }
+      footer {
+        background-color: #343a40;
+        color: #ffffff;
+        padding: 20px 0;
+        text-align: center;
+        margin: 40px 0 0;
+      }
+      footer div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+
+  <body style="min-height: 600px">
+    <nav class="navbar navbar-expand-lg bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/"
+          ><img
+            class="logo"
+            src="/3448df6cb5af9ec220a724b1bd228812.png"
+            style="
+              width: 50px;
+              height: 50px;
+              border-radius: 50%;
+              transition: 0.4s;
+            "
+        /></a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+          </ul>
+          <form class="d-flex" role="search">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-success" type="submit">
+              Search
+            </button>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <h1>Estimate the first derivative</h1>
+      <form id="interpolationForm">
+        <label for="xValues">Enter x values (comma-separated):</label>
+        <input type="text" id="xValues" name="xValues" required />
+
+        <label for="yValues">Enter y values (comma-separated):</label>
+        <input type="text" id="yValues" name="yValues" required />
+
+        <label for="valueToEstimate">Enter value to interpolate: </label>
+        <input
+          type="text"
+          id="valueToEstimate"
+          name="valueToEstimate"
+          required
+        />
+
+        <button type="submit">Interpolate</button>
+      </form>
+
+      <div class="result" id="result"></div>
+    </div>
+    <footer>
+      <div>
+        <span>&copy; 2024 Minya University, Faculty of Science</span>
+      </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("interpolationForm");
+        const resultDiv = document.getElementById("result");
+
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const xValuesInput = document.getElementById("xValues");
+          const yValuesInput = document.getElementById("yValues");
+          const valueToEstimateInput =
+            document.getElementById("valueToEstimate");
+
+          // الحصول على قيم x و y
+          const xValues = xValuesInput.value
+            .split(",")
+            .map((val) => parseFloat(val.trim()));
+          const yValues = yValuesInput.value
+            .split(",")
+            .map((val) => parseFloat(val.trim()));
+          const valueToEstimate = parseFloat(valueToEstimateInput.value);
+
+          // تقدير المشتقة باستخدام طريقة نيوتن الأمامية
+          const estimatedDerivative = newtonForwardDerivative(
+            xValues,
+            yValues,
+            valueToEstimate
+          );
+
+          // عرض النتيجة
+          resultDiv.innerHTML = `<p> Estimated derivative Fro ${valueToEstimate} is: ${estimatedDerivative.toFixed(
+            4
+          )}</p>`;
+        });
+      });
+
+      function newtonForwardDerivative(x, y, value) {
+        const n = x.length;
+        const h = x[1] - x[0];
+
+        // حساب الفروق الأمامية
+        const forwardDifferences = [];
+        for (let i = 0; i < n - 1; i++) {
+          forwardDifferences.push(y[i + 1] - y[i]);
+        }
+
+        // تقدير المشتقة الأولى باستخدام الفروق الأمامية
+        let derivative = forwardDifferences[0];
+        let term = 1;
+
+        for (let i = 1; i < n - 1; i++) {
+          term *= (value - x[0] - i * h) / (i + 1);
+          derivative += term * forwardDifferences[i];
+        }
+
+        return derivative / h;
+      }
+    </script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js.map"></script>
+  </body>
+</html>

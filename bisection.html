@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bisection Method</title>
+    <!-- <link rel="stylesheet" href="bisc.css" /> -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css.map" />
+    <style>
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      @media (max-width: 991px) {
+        .container {
+          flex-direction: column;
+          gap: 30px;
+        }
+      }
+      .container > div {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .input-group {
+        margin-bottom: 10px;
+      }
+
+      .input-group label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .input-group input[type="text"] {
+        width: 200px;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      #btn {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      #btn:hover {
+        background-color: #0056b3;
+      }
+
+      #result {
+        margin-top: 10px;
+      }
+      .logo:hover {
+        transform: scale(1.2);
+      }
+      nav {
+        margin: 0 0 40px 0;
+      }
+      /* Footer Styles */
+      footer {
+        background-color: #343a40;
+        color: #ffffff;
+        padding: 20px 0;
+        text-align: center;
+        margin: 40px 0 0;
+      }
+      footer div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+
+  <body style="min-height: 600px">
+    <nav class="navbar navbar-expand-lg bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/"
+          ><img
+            class="logo"
+            src="/3448df6cb5af9ec220a724b1bd228812.png"
+            style="
+              width: 50px;
+              height: 50px;
+              border-radius: 50%;
+              transition: 0.4s;
+            "
+        /></a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+          </ul>
+          <form class="d-flex" role="search">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-success" type="submit">
+              Search
+            </button>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div>
+        <h3>Example for the functions :</h3>
+        <p>3*x^3 - 2*x^2 + 5*x - 7</p>
+        <p>x^2 - 4</p>
+        <p>sin(x) * cos(x) + tan(x)</p>
+        <p>log(x^2 + 3) / (x - 1)</p>
+      </div>
+      <div>
+        <div class="input-group">
+          <label for="func">Enter Function:</label>
+          <input type="text" id="func" />
+        </div>
+        <div class="input-group">
+          <label for="a">Enter A:</label>
+          <input type="text" id="a" />
+        </div>
+        <div class="input-group">
+          <label for="b">Enter B:</label>
+          <input type="text" id="b" />
+        </div>
+        <button id="btn">Solve</button>
+        <div id="result"></div>
+      </div>
+    </div>
+    <footer>
+      <div>
+        <span>&copy; 2024 Minya University, Faculty of Science</span>
+      </div>
+    </footer>
+  </body>
+  <script src="./bisc.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.7.0/math.min.js"></script>
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/bootstrap.bundle.min.js.map"></script>
+</html>
